@@ -6,4 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ReactiveUI.Events.WPF" Version="11.1.23" />
+    <PackageReference Include="ReactiveUI.WPF" Version="11.1.23" />
+  </ItemGroup>
+
 </Project>
