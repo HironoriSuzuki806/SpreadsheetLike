@@ -54,12 +54,54 @@ namespace SpreadsheetLike
 
             this.WhenActivated(disposable =>
             {
+                // Row1
                 this.Bind(this.ViewModel, vm => vm.Cell1TextBox, v => v.Cell1TextBox.Text)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, vm => vm.Cell1TextBlock, x => x.Cell1TextBlock.Text)
                     .DisposeWith(disposable);
+
+                // Row2
+                this.Bind(this.ViewModel, vm => vm.Cell2TextBox, v => v.Cell2TextBox.Text)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(this.ViewModel, vm => vm.Cell2TextBlock, x => x.Cell2TextBlock.Text)
+                    .DisposeWith(disposable);
+
+                // Row3
+                this.Bind(this.ViewModel, vm => vm.Cell3TextBox, v => v.Cell3TextBox.Text)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(this.ViewModel, vm => vm.Cell3TextBlock, x => x.Cell3TextBlock.Text)
+                    .DisposeWith(disposable);
+
+                // Row4
+                this.Bind(this.ViewModel, vm => vm.Cell4TextBox, v => v.Cell4TextBox.Text)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(this.ViewModel, vm => vm.Cell4TextBlock, x => x.Cell4TextBlock.Text)
+                    .DisposeWith(disposable);
+
+                // Row5
+                this.Bind(this.ViewModel, vm => vm.Cell5TextBox, v => v.Cell5TextBox.Text)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(this.ViewModel, vm => vm.Cell5TextBlock, x => x.Cell5TextBlock.Text)
+                    .DisposeWith(disposable);
             });
+
+
+            // Enter キーでフォーカス移動する
+            this.KeyDown += (sender, e) =>
+            {
+                if (e.Key != Key.Enter)
+                {
+                    return; 
+                }
+                var direction = Keyboard.Modifiers == ModifierKeys.Shift ? FocusNavigationDirection.Up : FocusNavigationDirection.Down;
+                (FocusManager.GetFocusedElement(this) as FrameworkElement)?.MoveFocus(new TraversalRequest(direction));
+            };
+
         }
     }
 }
