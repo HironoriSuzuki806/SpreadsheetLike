@@ -49,6 +49,7 @@ namespace SpreadsheetLike
             Locator.CurrentMutable.RegisterConstant(new CalculationService(4), typeof(ICalculationService));
             Locator.CurrentMutable.RegisterConstant(new CalculationService(5), typeof(ICalculationService));
 
+
             ViewModel = new MainWindowViewModel();
 
             this.WhenActivated(disposable =>

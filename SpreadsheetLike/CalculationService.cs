@@ -39,7 +39,7 @@ namespace SpreadsheetLike
 
                 return services
                         .Where(s => s.Row == (this.Row - 1))
-                        .FirstOrDefault()
+                        .Single()
                         .ResultValue;
             };
         }
