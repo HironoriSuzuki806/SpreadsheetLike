@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,31 +27,38 @@ namespace SpreadsheetLike
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty
             .Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow));
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            ViewModel = new MainWindowViewModel();
-
-            this.WhenActivated(disposable =>
-            {
-                this.Bind(this.ViewModel, x => x.Cell1TextBox, x => x.Cell1TextBox.Text)
-                    .DisposeWith(disposable);
-
-                this.OneWayBind(this.ViewModel, x => x.Cell1TextBox, x => x.Cell1TextBlock.Text)
-                    .DisposeWith(disposable);
-            });
-        }
-
         public MainWindowViewModel ViewModel
         {
             get => (MainWindowViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, (object)value);
         }
-        
-        object IViewFor.ViewModel 
+
+        object IViewFor.ViewModel
         {
             get => ViewModel;
             set => ViewModel = (MainWindowViewModel)value;
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            Locator.CurrentMutable.Register(() => new CalculationService(1), typeof(ICalculationService));
+            Locator.CurrentMutable.Register(() => new CalculationService(2), typeof(ICalculationService));
+            Locator.CurrentMutable.Register(() => new CalculationService(3), typeof(ICalculationService));
+            Locator.CurrentMutable.Register(() => new CalculationService(4), typeof(ICalculationService));
+            Locator.CurrentMutable.Register(() => new CalculationService(5), typeof(ICalculationService));
+
+            ViewModel = new MainWindowViewModel();
+
+            this.WhenActivated(disposable =>
+            {
+                this.Bind(this.ViewModel, vm => vm.Cell1TextBox, v => v.Cell1TextBox.Text)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(this.ViewModel, vm => vm.Cell1TextBlock, x => x.Cell1TextBlock.Text)
+                    .DisposeWith(disposable);
+            });
         }
     }
 }
