@@ -14,11 +14,15 @@ namespace SpreadsheetLike
         public int? Cell1TextBox
         {
             get => cell1TextBox;
-            set => this.RaiseAndSetIfChanged(ref cell1TextBox, value);
+            set
+            {
+                CalculationServices.Single(p => p.Row == 1).InputCell.OnNext(value);
+                this.RaiseAndSetIfChanged(ref cell1TextBox, value);
+            }
         }
 
-        private ObservableAsPropertyHelper<int> cell1TextBlock;
-        public int Cell1TextBlock
+        private ObservableAsPropertyHelper<int?> cell1TextBlock;
+        public int? Cell1TextBlock
         {
             get => cell1TextBlock.Value;
         }

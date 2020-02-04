@@ -12,9 +12,9 @@ namespace SpreadsheetLike
     {
         public int Row { get; }
 
-        public ReplaySubject<int> InputCell { get; }
+        public ReplaySubject<int?> InputCell { get; } = new ReplaySubject<int?>(1);
 
-        public IObservable<int> ResultValue { get; }
+        public IObservable<int?> ResultValue { get; }
 
         public CalculationService(int row)
         {
@@ -25,19 +25,21 @@ namespace SpreadsheetLike
                 (i, r) => i + r
                 )
                 .Publish().RefCount();
-
         }
 
-        private IObservable<int> GetPreviousResultValue()
+        private IObservable<int?> GetPreviousResultValue()
         {
             if (Row == 1)
             {
-                return Observable.Return(0);
+                return Observable.Return<int?>(0);
             }
             else
             {
-                return Locator.Current.GetServices<ICalculationService>()
-                        .Single(s => s.Row == this.Row - 1)
+                var services = Locator.Current.GetServices<ICalculationService>();
+
+                return services
+                        .Where(s => s.Row == (this.Row - 1))
+                        .FirstOrDefault()
                         .ResultValue;
             };
         }

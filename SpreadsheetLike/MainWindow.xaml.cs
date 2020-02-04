@@ -43,11 +43,11 @@ namespace SpreadsheetLike
         {
             InitializeComponent();
 
-            Locator.CurrentMutable.Register(() => new CalculationService(1), typeof(ICalculationService));
-            Locator.CurrentMutable.Register(() => new CalculationService(2), typeof(ICalculationService));
-            Locator.CurrentMutable.Register(() => new CalculationService(3), typeof(ICalculationService));
-            Locator.CurrentMutable.Register(() => new CalculationService(4), typeof(ICalculationService));
-            Locator.CurrentMutable.Register(() => new CalculationService(5), typeof(ICalculationService));
+            Locator.CurrentMutable.RegisterConstant(new CalculationService(1), typeof(ICalculationService));
+            Locator.CurrentMutable.RegisterConstant(new CalculationService(2), typeof(ICalculationService));
+            Locator.CurrentMutable.RegisterConstant(new CalculationService(3), typeof(ICalculationService));
+            Locator.CurrentMutable.RegisterConstant(new CalculationService(4), typeof(ICalculationService));
+            Locator.CurrentMutable.RegisterConstant(new CalculationService(5), typeof(ICalculationService));
 
             ViewModel = new MainWindowViewModel();
 

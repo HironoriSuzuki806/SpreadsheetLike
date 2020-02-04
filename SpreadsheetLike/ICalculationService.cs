@@ -9,9 +9,9 @@ namespace SpreadsheetLike
     {
         int Row { get; }
 
-        ReplaySubject<int> InputCell { get; }
+        ReplaySubject<int?> InputCell { get; }
 
-        IObservable<int> ResultValue { get; }
+        IObservable<int?> ResultValue { get; }
 
     }
 }
