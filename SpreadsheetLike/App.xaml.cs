@@ -15,6 +15,5 @@ namespace SpreadsheetLike
     /// </summary>
     public partial class App : Application
     {
-        Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
     }
 }
