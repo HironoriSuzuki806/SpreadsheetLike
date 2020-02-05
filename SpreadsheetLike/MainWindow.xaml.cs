@@ -43,13 +43,6 @@ namespace SpreadsheetLike
         {
             InitializeComponent();
 
-            Locator.CurrentMutable.RegisterConstant(new CalculationService(1), typeof(ICalculationService));
-            Locator.CurrentMutable.RegisterConstant(new CalculationService(2), typeof(ICalculationService));
-            Locator.CurrentMutable.RegisterConstant(new CalculationService(3), typeof(ICalculationService));
-            Locator.CurrentMutable.RegisterConstant(new CalculationService(4), typeof(ICalculationService));
-            Locator.CurrentMutable.RegisterConstant(new CalculationService(5), typeof(ICalculationService));
-
-
             ViewModel = new MainWindowViewModel();
 
             this.WhenActivated(disposable =>
@@ -61,12 +54,20 @@ namespace SpreadsheetLike
                 this.OneWayBind(this.ViewModel, vm => vm.Cell1TextBlock, x => x.Cell1TextBlock.Text)
                     .DisposeWith(disposable);
 
+                this.BindCommand(ViewModel, vm => vm.Cell1, x => x.Cell1TextBox, nameof(Cell1TextBox.TextChanged))
+                    .DisposeWith(disposable);
+
+
                 // Row2
                 this.Bind(this.ViewModel, vm => vm.Cell2TextBox, v => v.Cell2TextBox.Text)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, vm => vm.Cell2TextBlock, x => x.Cell2TextBlock.Text)
                     .DisposeWith(disposable);
+
+                this.BindCommand(ViewModel, vm => vm.Cell2, x => x.Cell2TextBox, nameof(Cell2TextBox.TextChanged))
+                    .DisposeWith(disposable);
+
 
                 // Row3
                 this.Bind(this.ViewModel, vm => vm.Cell3TextBox, v => v.Cell3TextBox.Text)
@@ -75,6 +76,10 @@ namespace SpreadsheetLike
                 this.OneWayBind(this.ViewModel, vm => vm.Cell3TextBlock, x => x.Cell3TextBlock.Text)
                     .DisposeWith(disposable);
 
+                this.BindCommand(ViewModel, vm => vm.Cell3, x => x.Cell3TextBox, nameof(Cell3TextBox.TextChanged))
+                    .DisposeWith(disposable);
+
+
                 // Row4
                 this.Bind(this.ViewModel, vm => vm.Cell4TextBox, v => v.Cell4TextBox.Text)
                     .DisposeWith(disposable);
@@ -82,12 +87,20 @@ namespace SpreadsheetLike
                 this.OneWayBind(this.ViewModel, vm => vm.Cell4TextBlock, x => x.Cell4TextBlock.Text)
                     .DisposeWith(disposable);
 
+                this.BindCommand(ViewModel, vm => vm.Cell4, x => x.Cell4TextBox, nameof(Cell4TextBox.TextChanged))
+                    .DisposeWith(disposable);
+
+
                 // Row5
                 this.Bind(this.ViewModel, vm => vm.Cell5TextBox, v => v.Cell5TextBox.Text)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, vm => vm.Cell5TextBlock, x => x.Cell5TextBlock.Text)
                     .DisposeWith(disposable);
+
+                this.BindCommand(ViewModel, vm => vm.Cell5, x => x.Cell5TextBox, nameof(Cell5TextBox.TextChanged))
+                    .DisposeWith(disposable);
+
             });
 
 

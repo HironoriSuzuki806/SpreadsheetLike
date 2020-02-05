@@ -3,6 +3,7 @@ using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Subjects;
 using System.Text;
 
@@ -17,16 +18,22 @@ namespace SpreadsheetLike
             get => cell1TextBox;
             set
             {
-                CalculationServices.Single(p => p.Row == 1).InputCell.OnNext(value);
                 this.RaiseAndSetIfChanged(ref cell1TextBox, value);
             }
         }
 
-        private ObservableAsPropertyHelper<int?> cell1TextBlock;
+        private int? cell1TextBlock;
         public int? Cell1TextBlock
         {
-            get => cell1TextBlock.Value;
+            get => cell1TextBlock;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref cell1TextBlock, value);
+            }
         }
+
+        public ReactiveCommand<Unit, Unit> Cell1 { get; }
+
         #endregion
         #region Cell2
         private int? cell2TextBox;
@@ -35,16 +42,22 @@ namespace SpreadsheetLike
             get => cell2TextBox;
             set
             {
-                CalculationServices.Single(p => p.Row == 2).InputCell.OnNext(value);
                 this.RaiseAndSetIfChanged(ref cell2TextBox, value);
             }
         }
 
-        private ObservableAsPropertyHelper<int?> cell2TextBlock;
+        private int? cell2TextBlock;
         public int? Cell2TextBlock
         {
-            get => cell2TextBlock.Value;
+            get => cell2TextBlock;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref cell2TextBlock, value);
+            }
         }
+
+        public ReactiveCommand<Unit, Unit> Cell2 { get; }
+
         #endregion
         #region Cell3
         private int? cell3TextBox;
@@ -53,16 +66,22 @@ namespace SpreadsheetLike
             get => cell3TextBox;
             set
             {
-                CalculationServices.Single(p => p.Row == 3).InputCell.OnNext(value);
                 this.RaiseAndSetIfChanged(ref cell3TextBox, value);
             }
         }
 
-        private ObservableAsPropertyHelper<int?> cell3TextBlock;
+        private int? cell3TextBlock;
         public int? Cell3TextBlock
         {
-            get => cell3TextBlock.Value;
+            get => cell3TextBlock;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref cell3TextBlock, value);
+            }
         }
+
+        public ReactiveCommand<Unit, Unit> Cell3 { get; }
+
         #endregion
         #region Cell4
         private int? cell4TextBox;
@@ -71,16 +90,22 @@ namespace SpreadsheetLike
             get => cell4TextBox;
             set
             {
-                CalculationServices.Single(p => p.Row == 4).InputCell.OnNext(value);
                 this.RaiseAndSetIfChanged(ref cell4TextBox, value);
             }
         }
 
-        private ObservableAsPropertyHelper<int?> cell4TextBlock;
+        private int? cell4TextBlock;
         public int? Cell4TextBlock
         {
-            get => cell4TextBlock.Value;
+            get => cell4TextBlock;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref cell4TextBlock, value);
+            }
         }
+
+        public ReactiveCommand<Unit, Unit> Cell4 { get; }
+
         #endregion
         #region Cell5
         private int? cell5TextBox;
@@ -89,40 +114,71 @@ namespace SpreadsheetLike
             get => cell5TextBox;
             set
             {
-                CalculationServices.Single(p => p.Row == 5).InputCell.OnNext(value);
                 this.RaiseAndSetIfChanged(ref cell5TextBox, value);
             }
         }
 
-        private ObservableAsPropertyHelper<int?> cell5TextBlock;
+        private int? cell5TextBlock;
         public int? Cell5TextBlock
         {
-            get => cell5TextBlock.Value;
+            get => cell5TextBlock;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref cell5TextBlock, value);
+            }
         }
+
+        public ReactiveCommand<Unit, Unit> Cell5 { get; }
+
         #endregion
 
 
-
-        private IEnumerable<ICalculationService> CalculationServices { get; }
-
-        public MainWindowViewModel(IEnumerable<ICalculationService> calculationServices = null)
+        public MainWindowViewModel()
         {
-            CalculationServices = calculationServices ?? Locator.Current.GetServices<ICalculationService>();
+            Cell1 = ReactiveCommand.Create(() =>
+            {
+                Cell1TextBlock = Cell1TextBox;
 
-            CalculationServices.Single(p => p.Row == 1).ResultValue
-                .ToProperty(this, vm => vm.Cell1TextBlock, out cell1TextBlock);
+                Cell2TextBlock = Cell2TextBox + Cell1TextBlock;
 
-            CalculationServices.Single(p => p.Row == 2).ResultValue
-                .ToProperty(this, vm => vm.Cell2TextBlock, out cell2TextBlock);
+                Cell3TextBlock = Cell3TextBox + Cell2TextBlock;
 
-            CalculationServices.Single(p => p.Row == 3).ResultValue
-                .ToProperty(this, vm => vm.Cell3TextBlock, out cell3TextBlock);
+                Cell4TextBlock = Cell4TextBox + Cell3TextBlock;
 
-            CalculationServices.Single(p => p.Row == 4).ResultValue
-                .ToProperty(this, vm => vm.Cell4TextBlock, out cell4TextBlock);
+                Cell5TextBlock = Cell5TextBox + Cell4TextBlock;
+            });
 
-            CalculationServices.Single(p => p.Row == 5).ResultValue
-                .ToProperty(this, vm => vm.Cell5TextBlock, out cell5TextBlock);
+            Cell2 = ReactiveCommand.Create(() =>
+            {
+                Cell2TextBlock = Cell2TextBox + Cell1TextBlock;
+
+                Cell3TextBlock = Cell3TextBox + Cell2TextBlock;
+
+                Cell4TextBlock = Cell4TextBox + Cell3TextBlock;
+
+                Cell5TextBlock = Cell5TextBox + Cell4TextBlock;
+            });
+
+            Cell3 = ReactiveCommand.Create(() =>
+            {
+                Cell3TextBlock = Cell3TextBox + Cell2TextBlock;
+
+                Cell4TextBlock = Cell4TextBox + Cell3TextBlock;
+
+                Cell5TextBlock = Cell5TextBox + Cell4TextBlock;
+            });
+
+            Cell4 = ReactiveCommand.Create(() =>
+            {
+                Cell4TextBlock = Cell4TextBox + Cell3TextBlock;
+
+                Cell5TextBlock = Cell5TextBox + Cell4TextBlock;
+            });
+
+            Cell5 = ReactiveCommand.Create(() =>
+            {
+                Cell5TextBlock = Cell5TextBox + Cell4TextBlock;
+            });
 
         }
     }
