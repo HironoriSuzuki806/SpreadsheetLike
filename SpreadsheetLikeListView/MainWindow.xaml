@@ -12,17 +12,20 @@
         Title="MainWindow" Height="450" Width="200"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
 
-    <StackPanel Margin="10" >
+    <StackPanel>
         <ListView x:Name="SpreadsheetListView"
-                      Margin="0,5,0,5"
-                      Height="450"
-                      ItemsSource="{Binding Items}"
-                      SelectedItem="{Binding SelectedItem}">
+                  Margin="0,5,0,5"
+                  Height="380"
+                  ItemsSource="{Binding Items}" 
+                  SelectedItem="{Binding SelectedItem}"
+                  SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type local:SpreadsheetItemTemplateViewModel}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding InputCell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="{Binding ResultValue}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBox Width="75" Margin="5" HorizontalAlignment="Left" TextAlignment="Right"
+                                 Text="{Binding InputCell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Width="75" Margin="5" TextAlignment="Right" Background="LightGray"
+                                   Text="{Binding ResultValue}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
