@@ -31,20 +31,13 @@ namespace SpreadsheetLikeListView
         }
 
 
-        public SpreadsheetItemTemplateViewModel(int row)
+        public SpreadsheetItemTemplateViewModel(int row, ICalculationService calculationService)
         {
             Row = row;
-            CalculationService = CreateCalculationService();
-            Locator.CurrentMutable.RegisterConstant(CalculationService, typeof(ICalculationService));
+            CalculationService = calculationService;
 
             CalculationService.ResultValue
                 .ToProperty(this, vm => vm.ResultValue, out resultValue);
-        }
-
-
-        protected CalculationService CreateCalculationService()
-        {
-            return new CalculationService(Row);
         }
 
     }

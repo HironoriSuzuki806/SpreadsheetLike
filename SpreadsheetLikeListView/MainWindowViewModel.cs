@@ -14,6 +14,8 @@ namespace SpreadsheetLikeListView
 {
     public class MainWindowViewModel : ReactiveObject
     {
+        private static readonly int numberOfRow = 5;
+
         private readonly IDisposable _cleanUp;
         private readonly ReadOnlyObservableCollection<SpreadsheetItemTemplateViewModel> _items;
         public ReadOnlyObservableCollection<SpreadsheetItemTemplateViewModel> Items => _items;
@@ -23,15 +25,16 @@ namespace SpreadsheetLikeListView
 
         public MainWindowViewModel()
         {
-            SourceList = new ObservableCollectionExtended<SpreadsheetItemTemplateViewModel>();
-
-            Locator.CurrentMutable.RegisterConstant(new SpreadsheetItemTemplateViewModel(1), typeof(ISpreadsheetItemTemplateViewModel));
-            Locator.CurrentMutable.RegisterConstant(new SpreadsheetItemTemplateViewModel(2), typeof(ISpreadsheetItemTemplateViewModel));
-            Locator.CurrentMutable.RegisterConstant(new SpreadsheetItemTemplateViewModel(3), typeof(ISpreadsheetItemTemplateViewModel));
-            Locator.CurrentMutable.RegisterConstant(new SpreadsheetItemTemplateViewModel(4), typeof(ISpreadsheetItemTemplateViewModel));
-            Locator.CurrentMutable.RegisterConstant(new SpreadsheetItemTemplateViewModel(5), typeof(ISpreadsheetItemTemplateViewModel));
+            for (int row = 1; row <= numberOfRow; row++)
+            {
+                var cs = new CalculationService(row);
+                Locator.CurrentMutable.RegisterConstant(cs, typeof(ICalculationService));
+                Locator.CurrentMutable.RegisterConstant(new SpreadsheetItemTemplateViewModel(row, cs), typeof(ISpreadsheetItemTemplateViewModel));
+            }
 
             var services = Locator.Current.GetServices<ISpreadsheetItemTemplateViewModel>();
+
+            SourceList = new ObservableCollectionExtended<SpreadsheetItemTemplateViewModel>();
             SourceList.AddRange(services.Select(cs => (SpreadsheetItemTemplateViewModel)cs));
 
             var listLoader = SourceList.ToObservableChangeSet()
